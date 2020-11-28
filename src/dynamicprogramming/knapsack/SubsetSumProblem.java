@@ -25,7 +25,7 @@ public class SubsetSumProblem {
         System.out.println("Subset sum exists DP solution : " + subsetSumDPBU(arr, sum));
     }
 
-    private static boolean subsetSumRec(int[] arr, int sum, int rightIndex) {
+    protected static boolean subsetSumRec(int[] arr, int sum, int rightIndex) {
         if(sum == 0)
             return true;
         if(rightIndex < 0)
@@ -39,7 +39,7 @@ public class SubsetSumProblem {
         }
     }
 
-    private static boolean subsetSumDPBU(int[] arr, int sum) {
+    protected static boolean subsetSumDPBU(int[] arr, int sum) {
 
         int len = arr.length;
         boolean[][] dp = new boolean[len+1][sum+1];

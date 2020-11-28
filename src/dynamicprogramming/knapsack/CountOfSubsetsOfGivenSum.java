@@ -13,22 +13,29 @@ import java.util.stream.IntStream;
  * @author Vinod Akkepalli
  */
 public class CountOfSubsetsOfGivenSum {
+    static int[][] dptd;
 
     public static void main(String[] args) {
-        int[] arr = {1, 2, 3, 3};
-        int sum = 6;
-
-//        int[] arr = {1, 1, 1, 1};
-//        int sum = 3;
-
-//        int[] arr = {3, 3, 3, 3};
+//        int[] arr = {1, 2, 3, 3}; // ans = 3
 //        int sum = 6;
 
+//        int[] arr = {1, 1, 1, 1};   // ans = 4
+//        int sum = 3;
+
+        int[] arr = {3, 3, 3, 3};   // ans = 6
+        int sum = 6;
+
         System.out.println(countSubsetsOfGivenSumRec(arr, sum, arr.length-1));
+
+        dptd = new int[arr.length+1][sum+1];
+        IntStream.range(0,arr.length+1).forEach(i -> Arrays.fill(dptd[i], -1));
+        System.out.println(countSubsetsOfGivenSumDPTD(arr, sum, arr.length-1));
+//        Arrays.stream(dptd).forEach(i -> System.out.println(Arrays.toString(i)));
+
         System.out.println(countSubsetsOfGivenSumDPBU(arr, sum));
     }
 
-    private static int countSubsetsOfGivenSumRec(int[] arr, int sum, int ri) {
+    protected static int countSubsetsOfGivenSumRec(int[] arr, int sum, int ri) {
         if(sum == 0) {
             return 1;
         }
@@ -45,7 +52,30 @@ public class CountOfSubsetsOfGivenSum {
 
     }
 
-    private static int countSubsetsOfGivenSumDPBU(int[] arr, int sum) {
+    protected static int countSubsetsOfGivenSumDPTD(int[] arr, int sum, int ri) {
+        if(sum == 0) {
+            if (ri >= 0) dptd[ri][sum] = 1;
+            return 1;
+        }
+        if(ri < 0) {
+            return 0;
+        }
+
+        if(dptd[ri][sum] != -1) {
+            return dptd[ri][sum];
+        }
+
+        if(arr[ri] <= sum) {
+            dptd[ri][sum] = countSubsetsOfGivenSumDPTD(arr, sum-arr[ri], ri-1)
+                    + countSubsetsOfGivenSumDPTD(arr, sum, ri-1);
+        } else {
+            dptd[ri][sum] = countSubsetsOfGivenSumDPTD(arr, sum, ri-1);
+        }
+
+        return dptd[ri][sum];
+    }
+
+    protected static int countSubsetsOfGivenSumDPBU(int[] arr, int sum) {
         int len = arr.length;
         int[][] dp = new int[len + 1][sum + 1];
 
@@ -62,7 +92,7 @@ public class CountOfSubsetsOfGivenSum {
             }
         }
 
-        Arrays.stream(dp).forEach(i -> System.out.println(Arrays.toString(i)));
+//        Arrays.stream(dp).forEach(i -> System.out.println(Arrays.toString(i)));
         return dp[len][sum];
     }
 }
