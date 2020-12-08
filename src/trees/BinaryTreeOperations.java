@@ -1,4 +1,4 @@
-package recursion;
+package trees;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,17 +9,6 @@ import java.util.List;
  *
  * @author Vinod Akkepalli
  */
-
-class Node {
-    int data;
-    Node left, right;
-
-    Node(int item)
-    {
-        data = item;
-        left = right = null;
-    }
-}
 
 public class BinaryTreeOperations {
 
