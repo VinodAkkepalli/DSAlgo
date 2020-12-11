@@ -1,4 +1,4 @@
-package interviews;
+package matrix;
 
 /**
  * <b>Description</b> :
