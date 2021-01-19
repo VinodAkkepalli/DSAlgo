@@ -4,10 +4,11 @@ package slidingwindow;
  * <b>Description</b> : Given a word and a text, return the count of the
  * occurrences of anagrams of the word in the text
  * https://www.geeksforgeeks.org/count-occurrences-of-anagrams/
+ * https://www.youtube.com/watch?v=MW4lJ8Y0xXk&list=PL_z_8CaSLPWeM8BDJmIYDaoQ5zuwyxnfj&index=5
  *
  * @author Vinod Akkepalli
  */
-public class CountOccurrancesOfAnagram {
+public class CountOccurrencesOfAnagram {
 
     public static final int CHAR_SIZE = 256;
 

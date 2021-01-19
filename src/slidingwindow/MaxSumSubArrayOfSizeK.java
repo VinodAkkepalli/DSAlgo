@@ -11,10 +11,14 @@ package slidingwindow;
 public class MaxSumSubArrayOfSizeK {
 
     public static void main(String[] args) {
-        int[] arr = {1, 4, 2, 10, 23, 3, 1, 0, 20};
+        int[] arr = {40, 4, 2, 10, 23, 3, 1, 0, -20};
         int k = 4;
 
         int[] result = findMaxMinSum(arr, k);
+        System.out.println("Max= " + result[0]);
+        System.out.println("Min= " + result[1]);
+
+        result = findMaxMinSum1(arr, k);
         System.out.println("Max= " + result[0]);
         System.out.println("Min= " + result[1]);
     }
@@ -35,6 +39,30 @@ public class MaxSumSubArrayOfSizeK {
             sum = sum + (arr[i] - arr[i-k]);
             max = Math.max(sum, max);
             min = Math.min(sum, min);
+        }
+
+        return new int[]{max, min};
+    }
+
+    private static int[] findMaxMinSum1(int[] arr, int k) {
+        int sum = 0;
+        int len = arr.length;
+
+        int i = 0;
+        int j = 0;
+        int max = Integer.MIN_VALUE;
+        int min = Integer.MAX_VALUE;
+
+        while (j < len) {
+            sum = sum + arr[j];
+
+            if (j-i+1 == k) {
+                max = Math.max(sum, max);
+                min = Math.min(sum, min);
+                sum = sum - arr[i];
+                i++;
+            }
+            j++;
         }
 
         return new int[]{max, min};
