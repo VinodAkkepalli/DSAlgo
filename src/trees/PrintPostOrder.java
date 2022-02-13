@@ -1,6 +1,6 @@
 package trees;
 
-import java.util.Arrays;
+import java.util.HashMap;
 
 /**
  * <b>Description</b> :
@@ -11,7 +11,8 @@ import java.util.Arrays;
  * @author Vinod Akkepalli
  */
 public class PrintPostOrder {
-    static int preInd = 0;
+
+    static int preIndex = 0;
     public static void main(String[] args) {
         int[] in = { 4, 2, 5, 1, 7, 3, 6 };
         int[] pre = { 1, 2, 4, 5, 3, 7, 6 };
@@ -23,34 +24,33 @@ public class PrintPostOrder {
 //        int[] pre = { 1,2,3 };
 
         System.out.println("Postorder traversal " );
-        printPostOrder(in, pre, pre[preInd]);
+        HashMap<Integer, Integer> inorderLocMap = buildInorderLocationsMap(in);
+        printPostOrder(in, pre, 0, pre.length-1, inorderLocMap);
     }
 
-    private static void printPostOrder(int[] in, int[] pre, int value) {
-        int inLen = in.length;
-
-        if(inLen < 1) {
-            --preInd;
-            return;
+    private static HashMap<Integer, Integer> buildInorderLocationsMap(int[] in) {
+        HashMap<Integer, Integer> map = new HashMap<>();
+        for (int i = 0; i < in.length; i++) {
+            map.put(in[i], i);
         }
-        if(inLen == 1) {
-            System.out.println(in[0]);
-            return;
-        }
-
-        int index = findRootIndexInInorder(in, value);
-//        System.out.println("root index:" + index + " root element:" + in[index]);
-        printPostOrder(Arrays.copyOfRange(in, 0, index), pre, pre[++preInd]);
-        printPostOrder(Arrays.copyOfRange(in, index+1, inLen), pre, pre[++preInd]);
-        System.out.println(in[index]);
+        return map;
     }
 
-    //Can be converted to map to achieve O(n)
-    private static int findRootIndexInInorder(int[] in, int value) {
-        int index = 0;
-        while (index < in.length && in[index] != value) {
-            index++;
+    static void printPostOrder(int[] in, int[] pre, int inStart, int inEnd, HashMap<Integer, Integer> map) {
+        if (inStart > inEnd) {
+            return;
         }
-        return index;
+
+        // Find index of next item in preorder traversal in inorder.
+        int root = map.get(pre[preIndex++]);
+
+        // traverse left tree
+        printPostOrder(in, pre, inStart, root - 1, map);
+
+        // traverse right tree
+        printPostOrder(in, pre, root + 1, inEnd, map);
+
+        // print root node at the end of traversal
+        System.out.print(in[root] + " ");
     }
 }
