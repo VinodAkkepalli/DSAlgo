@@ -6,7 +6,7 @@ import java.util.Stack;
 /**
  * <b>Description</b> : Given an array, print the Next Greater Element (NGE) for every element.
  * The Next greater Element for an element x is the first greater element
- * on the right side of x in array. Elements for which no greater element exist,
+ * on the left side of x in array. Elements for which no greater element exist,
  * consider next greater element as -1
  * https://www.youtube.com/watch?v=P1bAPZg5uaE&list=PL_z_8CaSLPWdeOezg68SKkeLN4-T_jNHd&index=1
  * https://www.youtube.com/watch?v=NXOOYYwpbg4&list=PL_z_8CaSLPWdeOezg68SKkeLN4-T_jNHd&index=2
