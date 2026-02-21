@@ -1,6 +1,7 @@
 package slidingwindow;
 
 import java.util.Arrays;
+import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -20,8 +21,13 @@ public class FirstNegativeIntegerInEveryWindow {
         int k = 3;
 
         int[] firstNegativeArray = getFirstNegativeArray(arr, k);
+        //easy to understand
+        LinkedList<Integer> firstNegativeArray1 = getFirstNegativeArray1(arr, k);
+
         System.out.println("Input array is: " + Arrays.toString(arr));
         System.out.println("Output array is: " + Arrays.toString(firstNegativeArray));
+        System.out.println("Output array is: " + firstNegativeArray1);
+
 
     }
 
@@ -49,6 +55,35 @@ public class FirstNegativeIntegerInEveryWindow {
             res[a++] = !list.isEmpty() ? arr[list.get(0)]: 0;
         }
 
+        return res;
+    }
+
+
+    public static LinkedList<Integer> getFirstNegativeArray1(int[] arr, int k) {
+        int arrLen = arr.length;
+        int i = 0;
+        int j = 0;
+        LinkedList<Integer> res = new LinkedList<>();
+        Deque<Integer> deque = new LinkedList<>();
+
+        while (j < arrLen) {
+
+            if(arr[j] < 0) {
+                deque.addLast(arr[j]);
+            }
+            if(j-i+1 == k) {
+                if(deque.isEmpty()){
+                    res.add(0);
+                } else {
+                    res.add(deque.peekFirst());
+                }
+                if(!deque.isEmpty() && arr[i] == deque.peekFirst()) {
+                    deque.removeFirst();
+                }
+                i++;
+            }
+            j++;
+        }
         return res;
     }
 }
