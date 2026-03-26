@@ -1,5 +1,7 @@
 package string;
 
+import java.lang.invoke.StringConcatFactory;
+
 /**
  * 
  * @author VinodAkkepalli
@@ -17,10 +19,30 @@ public class ReverseWordsInString {
 		String input = "The quick brown fox jumps over the lazy dog named Charlie."; 
 		System.out.println(reverseWords(input));
 		System.out.println(reverseWords1(input));
+        System.out.println(reverseWords2(input));
 
 	}
-	
-	//output: Eht kciuq nworb xof spmuj revo eht yzal god deman Eilrahc.
+
+    //output: ehT kciuq nworb xof spmuj revo eht yzal god deman eilrahC.
+    private static String reverseWords2(String str) {
+        StringBuilder ans = new StringBuilder();
+        StringBuilder temp;
+        int strLen = str.length();
+
+        for (int i = 0; i < str.length(); i++) {
+            temp = new StringBuilder(0);
+            while(i < strLen && str.charAt(i) != ' ' && str.charAt(i) != '.') {
+                temp = temp.append(str.charAt(i));
+                i++;
+            }
+            ans = ans.append(temp.reverse()).append(str.charAt(i));
+        }
+
+        return ans.toString();
+    }
+
+
+    //output: Eht kciuq nworb xof spmuj revo eht yzal god deman Eilrahc.
 	public static String reverseWords1(String str){
 		String ans = "";
 		int strLen = str.length();
