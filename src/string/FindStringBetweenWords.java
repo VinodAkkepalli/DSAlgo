@@ -17,7 +17,7 @@ package string;
 
 public class FindStringBetweenWords {
 
-    public static void main(String[] args) {
+    static void main() {
 
         String str = "sw cloud dell search sw work blue";
         String word1 = "sw";
@@ -28,14 +28,15 @@ public class FindStringBetweenWords {
     }
 
     private static String findStringBetweenWords(String str, String word1, String word2) {
-        int len = str.length();
-        int start;
-        int end;
+        String ans = null;
+        int startIndex = str.indexOf(word1) + word1.length();
+        int endIndex = str.indexOf(word2, startIndex);
 
-        for (int i = 0; i < len; i++) {
-            start = str.indexOf(word1);
+        if (startIndex != -1 && endIndex != -1) {
+            ans = str.substring(startIndex, endIndex).trim();
         }
-        return null;
+
+        return ans;
     }
 
 
