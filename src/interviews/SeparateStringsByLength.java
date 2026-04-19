@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Input: List of String
@@ -37,9 +38,15 @@ public class SeparateStringsByLength {
 
         System.out.println(hm);
 
+        //Iterate through entries to print
         for (Map.Entry<Integer, List<String>> map : hm.entrySet()) {
             System.out.println(map);
         }
+
+
+        //Using Streams
+        Map<Integer, List<String>> hm2 = strList.stream().collect(Collectors.groupingBy(String::length));
+        System.out.println(hm2);
     }
 
 }
