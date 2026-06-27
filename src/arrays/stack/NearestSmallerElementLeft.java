@@ -23,32 +23,35 @@ public class NearestSmallerElementLeft {
         int[] arr = {60, 20, 50, 40, 10, 50, 60}; // ans = [-1, -1, 1, 1, -1, 4, 5]
 //        int[] arr = {6, 2, 5, 4, 5, 1, 6};    // ans = [-1, -1, 1, 1, 3, -1, 5]
 //        int[] arr = {10, 9, 2, 4, 8, 12, 13};   // ans = [-1, -1, -1, 2, 3, 4, 5]
+        
         int[] res = getIndexOfNearestSmallerElementToLeft(arr);
         System.out.println("Index Array of Nearest Smaller Element on Left: " + Arrays.toString(res));
     }
 
     private static int[] getIndexOfNearestSmallerElementToLeft(int[] arr) {
-        Stack<Integer> bottomSmallStack = new Stack<>();
-        int arrLen = arr.length;
-        int[] res = new int[arrLen];
+        
+        int n = arr.length;
+        int[] result = new int[n];
+        Stack<Integer> stack = new Stack<>();
 
-
-        bottomSmallStack.push(-1);
-        bottomSmallStack.push(0);
-        res[0] = -1;
-
-        for (int i = 1; i < arrLen; i++) {
-            if(bottomSmallStack.peek() > -1 && arr[bottomSmallStack.peek()] < arr[i]) {
-                res[i] = bottomSmallStack.peek();
-                bottomSmallStack.push(i);
-            } else if(bottomSmallStack.peek() > -1 && arr[bottomSmallStack.peek()] >= arr[i]) {
-                while (bottomSmallStack.peek() > -1 && arr[bottomSmallStack.peek()] >= arr[i]) {
-                    bottomSmallStack.pop();
-                }
-                res[i] = bottomSmallStack.peek();
-                bottomSmallStack.push(i);
+        //ADJUST DIRECTION (RIGHT: n-1→0 or LEFT: 0→n-1)
+        //If 'LEFT' mentioned, loop should be from 0 to n-1, if 'RIGHT' mentioned, loop should be from n-1 to 0
+        for (int i = 0; i < n; i++) {
+            
+            //ADJUST CONDITION (GREATER: < or SMALLER: >)
+            //If 'GREATER' mentioned, we pop all element which are smaller than current element,
+            //if 'SMALLER' mentioned, we pop all element which are greater than current element
+            while (!stack.empty() && arr[stack.peek()] > arr[i]) {
+                stack.pop();
             }
+            
+            //The top of the stack is your answer (or -1 if empty)
+            result[i] = stack.empty() ? -1 : stack.peek();
+            
+            //Push current element onto the stack for the next ones to use
+            stack.push(i);
         }
-        return res;
+        return result;
     }
+
 }

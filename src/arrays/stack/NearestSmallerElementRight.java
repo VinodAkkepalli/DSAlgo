@@ -20,35 +20,36 @@ import java.util.Stack;
 public class NearestSmallerElementRight {
 
     public static void main(String[] args) {
-                int[] arr = {60, 20, 50, 40, 10, 50, 60}; // ans = [1, 4, 3, 4, 7, 7, 7]
-//        int[] arr = {6, 2, 5, 4, 5, 1, 6};    // ans = [1, 5, 3, 5, 5, 7, 7]
-//        int[] arr = {10, 9, 2, 4, 8, 12, 13};   // ans = [1, 2, 7, 7, 7, 7, 7]
+                int[] arr = {60, 20, 50, 40, 10, 50, 60}; // ans = [1, 4, 3, 4, -1, -1, -1]
+//        int[] arr = {6, 2, 5, 4, 5, 1, 6};    // ans = [1, 5, 3, 5, 5, -1, -1]
+//        int[] arr = {10, 9, 2, 4, 8, 12, 13};   // ans = [1, 2, -1, -1, -1, -1, -1]
         int[] res = getIndexOfNearestSmallerElementOnRight(arr);
         System.out.println("Max Area: " + Arrays.toString(res));
     }
 
     private static int[] getIndexOfNearestSmallerElementOnRight(int[] arr) {
-        Stack<Integer> bottomBigStack = new Stack<>();
-        int arrLen = arr.length;
-        int[] res = new int[arrLen];
+        int n = arr.length;
+        int[] result = new int[n];
+        Stack<Integer> stack = new Stack<>();
 
-        bottomBigStack.push(arrLen);
-        bottomBigStack.push(arrLen-1);
-        res[arrLen-1] = 7;
-
-        for (int i = arrLen-2; i >= 0; i--) {
-            if(bottomBigStack.peek() < arrLen && arr[bottomBigStack.peek()] < arr[i]) {
-                res[i] = bottomBigStack.peek();
-                bottomBigStack.push(i);
-            } else if(bottomBigStack.peek() < arrLen && arr[bottomBigStack.peek()] >= arr[i]) {
-                while (bottomBigStack.peek() < arrLen && arr[bottomBigStack.peek()] >= arr[i]) {
-                    bottomBigStack.pop();
-                }
-                res[i] = bottomBigStack.peek();
-                bottomBigStack.push(i);
+        //ADJUST DIRECTION (RIGHT: n-1→0 or LEFT: 0→n-1)
+        //If 'LEFT' mentioned, loop should be from 0 to n-1, if 'RIGHT' mentioned, loop should be from n-1 to 0
+        for (int i = n-1; i >= 0; i--) {
+            
+            //ADJUST CONDITION (GREATER: < or SMALLER: >)
+            //If 'GREATER' mentioned, we pop all element which are smaller than current element,
+            //if 'SMALLER' mentioned, we pop all element which are greater than current element
+            while (!stack.empty() && arr[stack.peek()] > arr[i]) {
+                stack.pop();
             }
+            
+            //The top of the stack is your answer (or -1 if empty)
+            result[i] = stack.empty() ? -1 : stack.peek();
+            
+            //Push current element onto the stack for the next ones to use
+            stack.push(i);
         }
-        return res;
+        return result;
 
     }
 }

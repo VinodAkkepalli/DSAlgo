@@ -32,28 +32,28 @@ public class NearestGreaterElementLeft {
     }
 
     private static int[] nearestGreaterElementLeft(int[] arr) {
+        
+        int n = arr.length;
+        int[] result = new int[n];
         Stack<Integer> stack = new Stack<>();
-        int len = arr.length;
-        int[] res = new int[len];
-        if(len < 1) return res;
 
-        for (int i = 0; i < len; i++) {
-            if(stack.isEmpty()) {
-                res[i] = -1;
-            } else if (stack.peek() > arr[i]) {
-                res[i] = stack.peek();
-            } else if (!stack.isEmpty() && stack.peek() <= arr[i]) {
-                while(!stack.isEmpty() && stack.peek() <= arr[i]) {
-                    stack.pop();
-                }
-                if (stack.isEmpty()) {
-                    res[i] = -1;
-                } else {
-                    res[i] = stack.peek();
-                }
+        //ADJUST DIRECTION (RIGHT: n-1→0 or LEFT: 0→n-1)
+        //If 'LEFT' mentioned, loop should be from 0 to n-1, if 'RIGHT' mentioned, loop should be from n-1 to 0
+        for (int i = 0; i < n; i++) {
+            
+            //ADJUST CONDITION (GREATER: < or SMALLER: >)
+            //If 'GREATER' mentioned, we pop all element which are smaller than current element,
+            //if 'SMALLER' mentioned, we pop all element which are greater than current element
+            while (!stack.empty() && arr[stack.peek()] < arr[i]) {
+                stack.pop();
             }
-            stack.push(arr[i]);
+            
+            //The top of the stack is your answer (or -1 if empty)
+            result[i] = stack.empty() ? -1 : arr[stack.peek()];
+            
+            //Push current element onto the stack for the next ones to use
+            stack.push(i);
         }
-        return res;
+        return result;
     }
 }
