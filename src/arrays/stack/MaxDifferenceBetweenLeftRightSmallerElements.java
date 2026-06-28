@@ -20,59 +20,56 @@ public class MaxDifferenceBetweenLeftRightSmallerElements {
 //        int[] arr = {2, 1, 8};  //output: 1
 //        int[] arr = {5, 1, 9, 2, 5, 1, 7}; //output: 1
 
-        findMaxDifference(arr);
+        int maxDiff = findMaxDifference(arr);
+        System.out.println("Max difference is: " + maxDiff);
     }
 
-    private static void findMaxDifference(int[] arr) {
+    public static int findMaxDifference(int[] arr) {
+        int n = arr.length;
+        int[] nsl = new int[n];
+        int[] nsr = new int[n];
         Stack<Integer> stack = new Stack<>();
-        int len = arr.length;
-        int[] ls = new int[len];
-        int[] rs = new int[len];
 
-        if(len < 1) return;
+        // ==========================================
+        // STEP 1: Nearest Smaller Left (NSL)
+        // ==========================================
+        for (int i = 0; i < n; i++) {
 
-        //find right-small array
-        for (int i = len - 1; i > -1; i--) {
-            while (!stack.isEmpty() && stack.peek() > arr[i]) {
+            while (!stack.isEmpty() && stack.peek() >= arr[i]) {
                 stack.pop();
             }
-            if (stack.isEmpty()) {
-                System.out.println(arr[i] + " -> " + 0);
-                rs[i] = 0;
-            } else {
-                while (arr[i] < stack.peek()) {
-                    stack.pop();
-                }
-                System.out.println(arr[i] + " -> " + stack.peek());
-                rs[i] = stack.peek();
-            }
+            // Record result (default to 0 if stack is empty)
+            nsl[i] = stack.isEmpty() ? 0 : stack.peek();
+            
             stack.push(arr[i]);
         }
 
-        //find left-small array
+        // CLEAR THE STACK BEFORE STEP 2!
         stack.clear();
-        for (int i = 0; i < len; i++) {
-            while (!stack.isEmpty() && stack.peek() > arr[i]) {
+
+        // ==========================================
+        // STEP 2: Nearest Smaller Right (NSR)
+        // ==========================================
+        for (int i = n - 1; i >= 0; i--) {
+
+            while (!stack.isEmpty() && stack.peek() >= arr[i]) {
                 stack.pop();
             }
-            if (stack.isEmpty()) {
-                System.out.println(arr[i] + " -> " + 0);
-                ls[i] = 0;
-            } else {
-                while (arr[i] < stack.peek()) {
-                    stack.pop();
-                }
-                System.out.println(arr[i] + " -> " + stack.peek());
-                ls[i] = stack.peek();
-            }
+            // Record result (default to 0 if stack is empty)
+            nsr[i] = stack.isEmpty() ? 0 : stack.peek();
+            
             stack.push(arr[i]);
         }
 
-        int max = Integer.MIN_VALUE;
-        for (int i = 0; i < len; i++) {
-            max = Math.max(max, Math.abs(ls[i] - rs[i]));
+        // ==========================================
+        // STEP 3: Calculate Max Absolute Difference
+        // ==========================================
+        int maxDiff = 0;
+        for (int i = 0; i < n; i++) {
+            int diff = Math.abs(nsl[i] - nsr[i]);
+            maxDiff = Math.max(maxDiff, diff);
         }
 
-        System.out.println("Max difference is: " + max);
+        return maxDiff;
     }
 }

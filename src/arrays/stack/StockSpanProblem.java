@@ -1,7 +1,6 @@
 package arrays.stack;
 
 import java.util.Arrays;
-import java.util.Map;
 import java.util.Stack;
 
 /**
@@ -33,41 +32,10 @@ public class StockSpanProblem {
         int[] res = getStockSpan(arr);
         System.out.println("stock span array is:" + Arrays.toString(res));
 
-        int[] res2 = getStockSpan2(arr);
-        System.out.println("stock span array is:" + Arrays.toString(res2));
     }
-
-    private static int[] getStockSpan(int[] arr) {
-        int len = arr.length;
-        int[] res = new int[len];
-//        to store pair of array element and element index
-        Stack<Map.Entry<Integer, Integer>> stack = new Stack<>();
-
-        for (int i = 0; i < len; i++) {
-            if(stack.isEmpty()) {
-                res[i] = 1;
-            } else if(stack.peek().getKey() > arr[i]) {
-                res[i] = i - stack.peek().getValue();
-            } else if(!stack.isEmpty() && stack.peek().getKey() <= arr[i]) {
-                while(!stack.isEmpty() && stack.peek().getKey() <= arr[i]) {
-                    stack.pop();
-                }
-                if(stack.isEmpty()) {
-                    res[i] = i+1;
-                } else {
-                    res[i] = i - stack.peek().getValue();
-                }
-            }
-            stack.push(Map.entry(arr[i], i));
-        }
-
-        return res;
-    }
-
-
 
     // Pattern: Next Greater Element to the left
-    private static int[] getStockSpan2(int[] arr) {
+    private static int[] getStockSpan(int[] arr) {
         
         int[] res = new int[arr.length];
         Stack<Integer> stack = new Stack<>();
@@ -83,7 +51,7 @@ public class StockSpanProblem {
             // if stack is empty, then all elements to the left are smaller than current element, so span is i+1
             // else span is the difference between current index and index of last greater element to the left
             res[i] = stack.isEmpty() ? i + 1 : i - stack.peek();
-            
+
             stack.push(i);
         }
 

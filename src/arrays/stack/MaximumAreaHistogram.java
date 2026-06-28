@@ -18,10 +18,10 @@ import static java.lang.Math.max;
 public class MaximumAreaHistogram {
 
     public static void main(String[] args) {
-//        int[] arr = {60, 20, 50, 40, 10, 50, 60}; //// ans = 100
-//        int[] arr = {6, 2, 5, 4, 5, 1, 6};    // ans = 12
-        int[] arr = {10, 9, 2, 4, 8, 12, 13};   // ans = 24
-//        int[] arr = {0, 9};   // ans = 9
+       int[] arr = {60, 20, 50, 40, 10, 50, 60}; //// ans = 100
+    //    int[] arr = {6, 2, 5, 4, 5, 1, 6};    // ans = 12
+        // int[] arr = {10, 9, 2, 4, 8, 12, 13};   // ans = 24
+    //    int[] arr = {0, 9};   // ans = 9
         System.out.println("Max Area: " + getMaxArea(arr));
     }
 
@@ -60,15 +60,11 @@ public class MaximumAreaHistogram {
         Stack<Integer> bottomSmallStack = new Stack<>();
         int arrLen = arr.length;
 
-        bottomSmallStack.push(-1);
-        bottomSmallStack.push(0);
-        nsel[0] = -1;
-
-        for (int i = 1; i < arrLen; i++) {
-            while (bottomSmallStack.peek() > -1 && arr[bottomSmallStack.peek()] >= arr[i]) {
+        for (int i = 0; i < arrLen; i++) {
+            while (!bottomSmallStack.isEmpty() && arr[bottomSmallStack.peek()] >= arr[i]) {
                 bottomSmallStack.pop();
             }
-            nsel[i] = bottomSmallStack.peek();
+            nsel[i] = bottomSmallStack.isEmpty() ? -1 : bottomSmallStack.peek();
             bottomSmallStack.push(i);
         }
     }
@@ -78,15 +74,11 @@ public class MaximumAreaHistogram {
         Stack<Integer> bottomSmallStack = new Stack<>();
         int arrLen = arr.length;
 
-        bottomSmallStack.push(arrLen);
-        bottomSmallStack.push(arrLen-1);
-        nser[arrLen-1] = 7;
-
-        for (int i = arrLen-2; i >= 0; i--) {
-            while (bottomSmallStack.peek() < arrLen && arr[bottomSmallStack.peek()] >= arr[i]) {
+        for (int i = arrLen-1; i >= 0; i--) {
+            while (!bottomSmallStack.isEmpty() && arr[bottomSmallStack.peek()] >= arr[i]) {
                 bottomSmallStack.pop();
             }
-            nser[i] = bottomSmallStack.peek();
+            nser[i] = bottomSmallStack.isEmpty() ? arrLen : bottomSmallStack.peek();
             bottomSmallStack.push(i);
         }
     }
