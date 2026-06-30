@@ -23,15 +23,19 @@ public class KClosestNumbers {
 
     private static void kClosestNumbers(int[] arr, int x, int k) {
 
+        int[] diffArr = new int[arr.length];
         for (int i = 0; i < arr.length; i++) {
-            arr[i] = Math.abs(arr[i] - x);
+            diffArr[i] = Math.abs(arr[i] - x);
         }
 
-        Queue<Map.Entry<Integer, Integer>> maxHeap = new PriorityQueue<>(
-                (o1, o2) -> o2.getKey().compareTo(o1.getKey()));
+        // Using Max Heap to store the closest numbers to x
+        // The heap will store the difference and the index of the element in the original array
+        // Queue<Map.Entry<Integer, Integer>> maxHeap = new PriorityQueue<>(
+                // (o1, o2) -> o2.getKey().compareTo(o1.getKey()));
+        Queue<Map.Entry<Integer, Integer>> maxHeap = new PriorityQueue<>(Map.Entry.comparingByKey((a, b) -> b - a));
 
-        for (int i = 0; i < arr.length; i++) {
-            maxHeap.add(Map.entry(arr[i], i));
+        for (int i = 0; i < diffArr.length; i++) {
+            maxHeap.add(Map.entry(diffArr[i], i));
             if(maxHeap.size() > k) {
                 maxHeap.remove();
             }
@@ -39,7 +43,7 @@ public class KClosestNumbers {
 
         for (int i = 0; i < k; i++) {
             Map.Entry<Integer, Integer> entry = maxHeap.remove();
-            System.out.println(x + entry.getKey() + " of index " + entry.getValue() );
+            System.out.println(arr[entry.getValue()] + " of index " + entry.getValue() );
         }
     }
 }

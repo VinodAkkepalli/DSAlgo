@@ -27,8 +27,11 @@ public class TopKFrequentNumbers {
         Map<Integer, Integer> fMap = new HashMap<>();
         int[] res = new int[k];
 
+        // for (int num : arr) {
+        //     fMap.put(num, fMap.getOrDefault(num, 0) + 1);
+        // }
         Arrays.stream(arr).forEach(i -> fMap.merge(i, 1, Integer::sum));
-//        System.out.println(fMap);
+        System.out.println(fMap);
 
         for(Map.Entry<Integer,Integer> entry : fMap.entrySet()) {
             minHeap.add(entry);
