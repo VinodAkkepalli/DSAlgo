@@ -1,8 +1,6 @@
 package string;
 
 
-import java.util.Stack;
-
 /**
  *
  * Reverse the string present into parentheses
@@ -22,15 +20,6 @@ public class ReverseStringBetweenParentheses {
         String input = "(ab(cd)ef)";
 
         System.out.println(ReverseParentheses(input));
-    }
-
-    static String ReverseSubstring(String str, int start, int end)
-    {
-        StringBuilder reversed = new StringBuilder();
-        for (int i = end; i >= start; i--) {
-            reversed.append(str.charAt(i));
-        }
-        return str.substring(0, start) + reversed + str.substring(end + 1);
     }
 
     static String ReverseParentheses(String str)
@@ -58,5 +47,15 @@ public class ReverseStringBetweenParentheses {
                     + str.substring(end + 1);
         }
         return str;
+    }
+
+
+    static String ReverseSubstring(String str, int start, int end)
+    {
+        StringBuilder reversed = new StringBuilder();
+        for (int i = end; i >= start; i--) {
+            reversed.append(str.charAt(i));
+        }
+        return str.substring(0, start) + reversed + str.substring(end + 1);
     }
 }

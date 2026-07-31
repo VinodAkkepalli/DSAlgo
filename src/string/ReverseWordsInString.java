@@ -1,7 +1,5 @@
 package string;
 
-import java.lang.invoke.StringConcatFactory;
-
 /**
  * 
  * @author VinodAkkepalli
@@ -82,7 +80,7 @@ public class ReverseWordsInString {
 		boolean flag = false;
 		int wordLen = str.length();
 		
-		if(str.charAt(0) >= 65 && str.charAt(0) <= 90)
+		if(str.charAt(0) >= 'A' && str.charAt(0) <= 'Z')
 			flag = true;
 		
 		for(int j = wordLen-1; j >=0 ; j--){
