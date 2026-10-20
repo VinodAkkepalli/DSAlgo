@@ -1,5 +1,7 @@
 package dynamicprogramming.lcs;
 
+import java.util.Arrays;
+
 /**
  * 
  * @author Vinod Akkepalli 
@@ -12,11 +14,17 @@ package dynamicprogramming.lcs;
 
 public class EditDistanceBetweenStrings {
 
+    static int[][] dp;
+
 	public static void main(String[] args) {
 		String str1 = "sunday";
 		String str2 = "saturday";
-		System.out.println("#of edits using DP Approach: " + editDistDP(str1, str2, str1.length(), str2.length()));
+		System.out.println("#of edits using DP Bottom-Up Approach: " + editDistDP(str1, str2, str1.length(), str2.length()));
 		System.out.println("#of edits using Recursive Approach: " + editDistRec(str1, str2, str1.length(), str2.length()));
+
+        dp = new int[str1.length()+1][str2.length()+1];
+        Arrays.stream(dp).forEach(i -> Arrays.fill(i, -1));
+        System.out.println("#of edits using DP Top-Down Approach: " + editDistTD(str1, str2, str1.length(), str2.length()));
 	}
 
 	// Recursive approach with TC O(3^len1)
@@ -68,4 +76,27 @@ public class EditDistanceBetweenStrings {
 		//for (int i = 0; i <= len1; i++) { System.out.println(Arrays.toString(dist[i])); }
 		return dist[len1][len2];
 	}
+
+    // DP Top-down approach with TC O(len1 * len2)
+    static int editDistTD(String str1, String str2, int len1, int len2) {
+
+        if(len1 == 0) {
+            return dp[len2][len1] = len2;
+        }
+        if(len2 == 0) {
+            return dp[len2][len1] = len1;
+        }
+
+        if(dp[len1][len2] != -1) {
+            return dp[len1][len2];
+        }
+
+        if(str1.charAt(len1-1) == str2.charAt(len2-1)) {
+            return dp[len1][len2] = editDistTD(str1, str2, len1-1, len2-1);
+        }
+
+        return dp[len1][len2] = 1 + Math.min(editDistTD(str1, str2, len1-1, len2),
+                                Math.min(editDistTD(str1, str2, len1, len2-1),
+                                        editDistTD(str1, str2, len1-1, len2-1)));
+    }
 }
